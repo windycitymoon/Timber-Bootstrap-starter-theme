@@ -4,3 +4,4 @@ static/*.png
 static/*.jpg
 static/*.svg
 /style.css
+package-lock.json
