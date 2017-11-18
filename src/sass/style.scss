@@ -14,7 +14,7 @@ Tags:
 $icon-font-path: "node_modules/bootstrap-sass/assets/fonts/bootstrap/";
 @import "./../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 
-@import "variables/**/*.scss";
+@import "variables/*.scss";
 @import "mixins/**/*.scss";
 @import "layouts/**/*.scss";
 @import "components/**/*.scss";

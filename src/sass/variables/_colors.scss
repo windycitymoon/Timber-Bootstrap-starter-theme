@@ -1,2 +1,23 @@
-$black: #111;
-$white: #FFF;
+$colors: (
+  black: (
+    0: #000,
+    1: #111
+  ),
+  gray: (
+    0: #f4f4f4,
+    1: #ccc,
+    2: #555,
+    3: #e3e3e3,
+    4: #e5e5e5,
+  ),
+  white: (
+    0: #fff,
+  ),
+);
+
+@function get-color($color, $value: 0) {
+  @return map-get(map-get($colors, $color), $value);
+}
+
+$black: get-color(black, 1);
+$white: get-color(white, 0);

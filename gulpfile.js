@@ -6,25 +6,65 @@ var reload      = browserSync.reload;
 var plugins = require('gulp-load-plugins')();                       // load all plugins
 
 var files = {
-  scss:   './src/sass/**/*.scss',
-  css:    './**/*.css',
-  js:     './src/js/**/*.js',
-  twig:   './templates/**/*.twig',
-  php:    './*.php',
-  images: './src/images/*.{png,jpg,svg}'
+  scss:   'src/sass/**/*.scss',
+  css:    '**/*.css',
+  js:     'src/js/**/*.js',
+  twig:   'templates/**/*.twig',
+  php:    '**/*.php',
+  images: 'src/images/*.{png,jpg,svg}'
 };
 
-//  CSS
-// gulp.task('css', function () {
-//     return gulp.src('**/*.css')
-//         .pipe(plugins.sourcemaps.init())
-//         .pipe(plugins.plumber())
-//         .pipe(plugins.autoprefixer())                               // autoprefix
-//         .pipe(plugins.csso())                                       // minify
-//         .pipe(plugins.sourcemaps.write())
-//         .pipe(gulp.dest('./dist/css'))
-//         .pipe(browserSync.reload({stream: true}));
-// });
+// Create helpful error mesages.
+var showError = function (error) {
+  var report = '';
+  var color = plugins.util.colors.white.bgRed;
+  var task = error.plugin;
+  var prob;
+  var file;
+  var line;
+  var cause;
+
+  if (task === 'gulp-uglify') {
+    prob = error.message;
+    if (error.cause) {
+      if (error.cause.message) {
+        cause = error.cause.message;
+      }
+      if (error.cause.filename) {
+        file = error.cause.filename;
+      }
+      if (error.cause.line) {
+        line = error.cause.line;
+      }
+    }
+  }
+  else if (task === 'gulp-sass') {
+    prob = error.formatted;
+  }
+  else {
+    prob = error.message;
+    if (error.fileName) {
+      file = error.fileName;
+    }
+    if (error.lineNumber) {
+      line = error.lineNumber;
+    }
+  }
+
+  report += color('TASK:') + ' [' + task + ']\n';
+  report += color('PROB:') + ' ' + prob + '\n';
+  if (file) { report += color('FILE:') + ' ' + file + '\n'; }
+  if (line) { report += color('LINE:') + ' ' + line + '\n'; }
+  if (cause) { report += color('CASE:') + ' ' + cause + '\n'; }
+  console.error(report);
+
+  // Uncomment to inspect the error object.
+  // console.log(error);
+
+  // Prevent the watch task from stopping on errors.
+  this.emit('end');
+};
+
 
 // JS
 gulp.task('js', function() {
@@ -76,23 +116,18 @@ gulp.task('sass', function(){
        remove: false // Don’t remove outdated prefixes: about 10% faster.
      })
    ];
-   return gulp.src(['./src/sass/**/*.scss'])
+   return gulp.src(files.scss)
      .pipe(plugins.sourcemaps.init())
-     .pipe(plugins.plumber())
-     .pipe(sassGlob(['build']))
+     .pipe(plugins.plumber({errorHandler: showError}))
+     .pipe(sassGlob())
      .pipe(sass().on('error', sass.logError))
-     .pipe(gulp.dest('./dist/css'))
      .pipe(plugins.postcss(processors))
      .pipe(plugins.csso())
      .pipe(plugins.sourcemaps.write(''))
+     .pipe(gulp.dest('./dist/css'))
      .pipe(browserSync.stream({match: '**/*.css'}));
      // .pipe(browserSync.reload({stream: true}));
 });
-
-gulp.task('refresh', function(){
-  return gulp.src([files.scss, files.js, files.twig, files.php])
-    .pipe(browserSync.reload({stream: true}));
-})
 
 //SVG2PNG
 gulp.task('svg2png', function(){
