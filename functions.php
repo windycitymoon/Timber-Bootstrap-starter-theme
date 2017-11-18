@@ -1,5 +1,11 @@
 <?php
 
+
+/*------------------------------------------------------------------*
+ * Helper Functions
+/*------------------------------------------------------------------*/
+require_once( get_template_directory() . '/inc/helpers.php' );
+
 /**
  * Generate navigation from menu.
  *
