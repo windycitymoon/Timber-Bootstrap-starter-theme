@@ -71,7 +71,7 @@ gulp.task('js', function() {
     return gulp.src('src/js/site.js')
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.plumber())
-        .pipe(plugins.uglify())                                     // minify
+        .pipe(plugins.uglify())                   // minify
         .pipe(plugins.sourcemaps.write('.'))
         .pipe(gulp.dest('dist/js'));
 });
@@ -125,8 +125,8 @@ gulp.task('sass', function(){
      .pipe(plugins.csso())
      .pipe(plugins.sourcemaps.write(''))
      .pipe(gulp.dest('./dist/css'))
-     .pipe(browserSync.stream({match: '**/*.css'}));
-     // .pipe(browserSync.reload({stream: true}));
+     // .pipe(browserSync.stream({match: '**/*.css'}));
+     .pipe(browserSync.reload({stream: true}));
 });
 
 //SVG2PNG
