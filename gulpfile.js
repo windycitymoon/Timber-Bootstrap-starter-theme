@@ -86,7 +86,7 @@ gulp.task('clean', function() {
 gulp.task('img', function () {
     return gulp.src(files.images)
         .pipe(plugins.imagemin())
-        .pipe(gulp.dest('./dist/images'));
+        .pipe(gulp.dest('dist/images'));
 });
 
 // BrowserSync
@@ -109,7 +109,7 @@ gulp.task('sass', function(){
    var sassGlob = require('gulp-sass-glob');
    var processors = [
      assets({
-       loadPaths: ['./src/images/']
+       loadPaths: ['src/images/']
      }),
      autoprefixer({
        browsers: ['last 3 versions', '> 1%'],
@@ -124,21 +124,24 @@ gulp.task('sass', function(){
      .pipe(plugins.postcss(processors))
      .pipe(plugins.csso())
      .pipe(plugins.sourcemaps.write(''))
-     .pipe(gulp.dest('./dist/css'))
+     .pipe(gulp.dest('dist/css'))
      // .pipe(browserSync.stream({match: '**/*.css'}));
      .pipe(browserSync.reload({stream: true}));
 });
 
 //SVG2PNG
 gulp.task('svg2png', function(){
-  return gulp.src(['./src/images/bg/*.svg'], {base: '.'})
+  var gulpCopy = require('gulp-copy');
+  var svg2png = require('gulp-svg2png');
+  return gulp.src(['src/images/bg/*.svg'])
+      .pipe(gulpCopy('dist/images/bg', {prefix: 3}))
       .pipe(plugins.plumber({errorHandler: showError}))
-      .pipe(plugins.svg2png())
-      .pipe(gulp.dest('.'));
+      .pipe(svg2png())
+      .pipe(gulp.dest('dist/images/bg'));
 })
 
 // Build
-gulp.task('build', ['clean', 'sass', 'js', 'img']);
+gulp.task('build', ['clean', 'sass', 'js', 'img', 'svg2png']);
 
 // Default
 gulp.task('default', ['build', 'browser-sync']);

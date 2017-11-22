@@ -17,6 +17,7 @@
     "gulp-autoprefixer": "latest",
     "gulp-buster": "^1.1.0",
     "gulp-clean": "^0.3.2",
+    "gulp-copy": "^1.0.1",
     "gulp-csso": "latest",
     "gulp-imagemin": "^3.0.3",
     "gulp-load-plugins": "latest",
@@ -25,6 +26,7 @@
     "gulp-sass": "^2.3.2",
     "gulp-sass-glob": "^1.0.8",
     "gulp-sourcemaps": "^2.6.0",
+    "gulp-svg2png": "^2.0.2",
     "gulp-uglify": "^2.0.0",
     "postcss-assets": "^5.0.0"
   }
