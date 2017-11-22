@@ -1,11 +1,14 @@
 <?php
 
-
 /*------------------------------------------------------------------*
  * Helper Functions
 /*------------------------------------------------------------------*/
 require_once( get_template_directory() . '/inc/helpers.php' );
 
+
+/*------------------------------------------------------------------*
+ * Timberboots Functions
+/*------------------------------------------------------------------*/
 /**
  * Generate navigation from menu.
  *
@@ -146,6 +149,34 @@ function add_slug_to_body_class( $classes ) {
 }
 add_filter( 'body_class', 'add_slug_to_body_class' );
 
+
+// Initial Sidebar and Footer Widget Areas
+add_action( 'widgets_init', 'timberboots_widgets_init' );
+function timberboots_widgets_init() {
+  register_sidebar(array(
+    'name' => __('Widget Area 1', 'timberboots'),
+    'description' => __('Widget Area 1', 'timberboots'),
+    'id' => 'widget-area-1',
+    'before_widget' => '<div id="%1$s" class="widget %2$s">',
+    'after_widget' => '</div>',
+    'before_title' => '<h3 class="widget__title">',
+    'after_title' => '</h3>'
+  ));
+  register_sidebar(array(
+    'name' => __('Footer Widgets', 'timberboots'),
+    'description' => __('Footer Widgets', 'timberboots'),
+    'id' => 'footer-widgets',
+    'before_widget' => '<div id="%1$s" class="widget %2$s">',
+    'after_widget' => '</div>',
+    'before_title' => '<h3 class="widget__title">',
+    'after_title' => '</h3>'
+  ));
+}
+
+
+/*------------------------------------------------------------------*
+ * Timber Functions
+/*------------------------------------------------------------------*/
 
 if (! class_exists('Timber')) {
     add_action('admin_notices', function () {

@@ -13,7 +13,7 @@
   {% endblock %}
 </header>
 
-<section id="content" role="main">
+<section id="content" class="content" role="main">
   <div class="container">
     {% if title %}
       <h1>{{title}}</h1>
@@ -32,7 +32,7 @@
 </section>
 
 {% block footer %}
-  <footer id="footer">
+  <footer id="footer" class="footer">
     {% include 'footer.twig' %}
   </footer>
   {{ function('wp_footer') }}

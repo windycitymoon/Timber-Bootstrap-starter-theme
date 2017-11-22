@@ -1,16 +1,4 @@
-
-// For sticky footer
-body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-#content {
-  flex: 1;
-}
-
-
-#footer {
+.footer {
   color: white;
   background-color: $black;
   text-align: center;
