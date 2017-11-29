@@ -5,4 +5,4 @@ static/*.jpg
 static/*.svg
 style.css
 package-lock.json
-dist/
+dist/*
